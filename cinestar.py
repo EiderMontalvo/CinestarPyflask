@@ -9,20 +9,29 @@ def pageNoFound( error ):
 @app.route( "/" )
 def index():
     return render_template( 'index.html' )
-
-@app.route( "/cines" )
-@app.route( "/cines/<id>" )
-def cines( id = None ):
+@app.route("/cines")
+@app.route("/cines/<id>")
+def cines(id=None):
     if id == None:
-        response = requests.get( 'https://oaemdl.es/cinestar_sweb_php/cines' )
+        response = requests.get('https://oaemdl.es/cinestar_sweb_php/cines')
         if response.status_code == 200:
             response = response.json()
-            if response[ 'success' ]:
-                return render_template( 'cines.html', cines = response[ 'data' ] )
-            else : return redirect( url_for('index'))
-        else : return redirect( url_for('index'))
-        
-    return render_template( 'cine.html' )
+            if response['success']:
+                return render_template('cines.html', cines=response['data'])
+        else:
+            return redirect(url_for('index'))
+    else:
+        if id.isdigit():
+            response = requests.get(f"https://oaemdl.es/cinestar_sweb_php/cines/{id}")
+            if response.status_code == 200:
+                response = response.json()
+                if response['success']:
+                    return render_template('cine.html', cine=response['data'])
+        return redirect(url_for('index'))
+
+    return redirect(url_for('index'))
+
+
 
 @app.route( "/peliculas/<id>" )
 def peliculas( id ):
