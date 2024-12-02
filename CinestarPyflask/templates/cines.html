@@ -1,0 +1,17 @@
+﻿{% extends "index.html" %}
+{% block contenido_interno %}
+    <br/><h1>Nuestros Cines</h1><br/>
+    {% for cine in cines %}
+        <div class="contenido-cine">
+            <img src="{{ url_for('static', filename='img/cine/'~ cine['id'] ~'.1.jpg') }}" width="227" height="170" alt="Imagen del cine">
+            <div class="datos-cine">
+                <h4>{{ cine['RazonSocial'] }}</h4><br/>
+                <span>{{ cine['Direccion'] }}<br/><br/>Teléfono: {{ cine['Telefonos'] }}</span>
+            </div>
+            <br/>
+            <a href="{{ url_for('cines', id = cine['id']) }}" target="_blank">
+                <img src="{{ url_for('static', filename='img/varios/ico-info2.png') }}" width="150" height="40" alt="Más información">
+            </a>
+        </div>
+    {% endfor %}
+{% endblock contenido_interno %}
